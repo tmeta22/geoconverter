@@ -4,6 +4,7 @@
   "description": "Convert various geospatial and data file formats.",
   "start_url": "/",
   "display": "standalone",
+  "scope": "/",
   "orientation": "portrait-primary",
   "background_color": "#F0F8FF",
   "theme_color": "#87CEEB",

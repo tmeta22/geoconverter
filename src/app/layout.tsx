@@ -29,6 +29,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: '/icons/icon.svg', type: 'image/svg+xml' },
       { url: '/icons/icon-72x72.png', sizes: '72x72', type: 'image/png' },
       { url: '/icons/icon-96x96.png', sizes: '96x96', type: 'image/png' },
       { url: '/icons/icon-128x128.png', sizes: '128x128', type: 'image/png' },
@@ -39,6 +40,10 @@ export const metadata: Metadata = {
       { url: '/icons/icon-512x512.png', sizes: '512x512', type: 'image/png' }
     ],
     apple: [
+      { url: '/icons/icon-72x72.png', sizes: '72x72', type: 'image/png' },
+      { url: '/icons/icon-96x96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/icons/icon-128x128.png', sizes: '128x128', type: 'image/png' },
+      { url: '/icons/icon-144x144.png', sizes: '144x144', type: 'image/png' },
       { url: '/icons/icon-152x152.png', sizes: '152x152', type: 'image/png' },
       { url: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png' }
     ]
@@ -62,7 +67,12 @@ export default function RootLayout({
         <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
         <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
         <link rel="icon" href="/icons/icon-192x192.png" type="image/png" sizes="192x192" />
+        <link rel="apple-touch-icon" href="/icons/icon-72x72.png" sizes="72x72" />
+        <link rel="apple-touch-icon" href="/icons/icon-96x96.png" sizes="96x96" />
+        <link rel="apple-touch-icon" href="/icons/icon-128x128.png" sizes="128x128" />
+        <link rel="apple-touch-icon" href="/icons/icon-144x144.png" sizes="144x144" />
         <link rel="apple-touch-icon" href="/icons/icon-152x152.png" sizes="152x152" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" sizes="180x180" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" sizes="192x192" />
         <link rel="mask-icon" href="/icons/icon.svg" color="#003893" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -71,6 +81,23 @@ export default function RootLayout({
         <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;600&display=swap&subset=khmer" as="style" />
         <link rel="preload" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600&display=swap" as="style" />
         <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" as="style" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                      console.log('SW registered: ', registration);
+                    })
+                    .catch(function(registrationError) {
+                      console.log('SW registration failed: ', registrationError);
+                    });
+                });
+              }
+            `
+          }}
+        />
       </head>
       <body className="antialiased fonts-loading" suppressHydrationWarning>
         <FontLoader />
