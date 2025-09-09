@@ -33,7 +33,30 @@ export function InstallBanner({ installPrompt, onInstall, onDismiss }: InstallBa
 
       return () => clearTimeout(timer);
     }
+
+    // For testing: show banner even without install prompt in development
+    if (process.env.NODE_ENV === 'development' && !isDismissed) {
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+      }, 5000); // Show after 5 seconds in dev mode
+
+      return () => clearTimeout(timer);
+    }
   }, [installPrompt, isDismissed]);
+
+  // Add keyboard shortcut to reset dismissal (for testing)
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+        localStorage.removeItem('pwa-install-banner-dismissed');
+        setIsDismissed(false);
+        console.log('PWA install banner dismissal reset');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
 
   const handleInstall = () => {
     onInstall();
@@ -47,7 +70,12 @@ export function InstallBanner({ installPrompt, onInstall, onDismiss }: InstallBa
     onDismiss();
   };
 
-  if (!installPrompt || isDismissed) {
+  if (isDismissed) {
+    return null;
+  }
+
+  // Don't show in production if no install prompt available
+  if (!installPrompt && process.env.NODE_ENV === 'production') {
     return null;
   }
 

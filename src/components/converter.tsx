@@ -1644,27 +1644,33 @@ const parseKML = (kmlString: string): GeoPoint[] => {
       >
       <Card className="w-full glass-morphism hover-holographic animate-float depth-card">
         <CardHeader>
-          <div className="flex items-start justify-between space-x-3">
-              <div className="flex items-center space-x-3">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+              <div className="flex items-center space-x-3 min-w-0 flex-1">
                   <motion.div 
-                    className="p-3 glass-morphism border-neon animate-pulse-glow"
+                    className="p-2 sm:p-3 glass-morphism border-neon animate-pulse-glow flex-shrink-0"
                     whileHover={{ scale: 1.1, rotate: 360 }}
                     transition={{ duration: 0.5 }}
                   >
-                      <Globe className="h-6 w-6 text-neon-cyan" />
+                      <Globe className="h-5 w-5 sm:h-6 sm:w-6 text-neon-cyan" />
                   </motion.div>
-                  <div>
-                      <CardTitle className="text-3xl font-orbitron font-black text-holographic animate-holographic">{t('appTitle')}</CardTitle>
-                      <CardDescription className="text-muted-foreground font-exo">{t('appDescription')} <span className="text-neon text-glow">{t('advancedAI')}</span></CardDescription>
+                  <div className="min-w-0 flex-1">
+                      <CardTitle className="text-xl sm:text-3xl font-orbitron font-black text-holographic animate-holographic truncate">{t('appTitle')}</CardTitle>
+                      <CardDescription className="text-muted-foreground font-exo text-sm sm:text-base">{t('appDescription')} <span className="text-neon text-glow">{t('advancedAI')}</span></CardDescription>
                   </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
                 <ClientOnly>
                   <LanguageToggle />
                   {installPrompt && (
-                      <Button variant="outline" size="sm" onClick={handleInstallClick}>
+                      <Button variant="outline" size="sm" onClick={handleInstallClick} className="hidden sm:flex">
                           <AppWindow className="mr-2 h-4 w-4" />
                           {t('install')}
+                      </Button>
+                  )}
+                  {installPrompt && (
+                      <Button variant="outline" size="icon" onClick={handleInstallClick} className="sm:hidden">
+                          <AppWindow className="h-4 w-4" />
+                          <span className="sr-only">{t('install')}</span>
                       </Button>
                   )}
                    <AlertDialog>

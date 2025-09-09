@@ -5,6 +5,7 @@ import { ClientOnly } from '@/components/client-only';
 import { ThemeProvider } from '@/components/theme-provider';
 import { LanguageProvider } from '@/components/language-provider';
 import { FontLoader } from '@/components/font-loader';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: 'Geo-Converter',
@@ -48,6 +49,7 @@ export default function RootLayout({
             </ClientOnly>
           </LanguageProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
