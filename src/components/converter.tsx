@@ -27,7 +27,7 @@ import { ClientOnly } from "./client-only";
 import ScrollMenu from "./scroll-menu";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Footer } from "@/components/footer";
-import { InstallBanner } from "@/components/install-banner";
+
 
 
 interface GeoPoint {
@@ -1631,11 +1631,7 @@ const parseKML = (kmlString: string): GeoPoint[] => {
 
   return (
     <>
-      <InstallBanner 
-        installPrompt={installPrompt}
-        onInstall={handleInstallClick}
-        onDismiss={handleInstallDismiss}
-      />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
