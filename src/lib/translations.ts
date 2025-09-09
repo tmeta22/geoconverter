@@ -154,7 +154,6 @@ export const translations = {
     
     // Additional labels
     uploadFile: "Upload File",
-    outputFormat: "Output Format",
     advancedOptions: "Advanced Options",
     pasteGeoJSON: "Paste GeoJSON",
     useAIParser: "Use AI Parser for complex or non-standard files (slower).",
@@ -326,7 +325,6 @@ export const translations = {
     
     // Additional labels
     uploadFile: "ផ្ទុកឯកសារ",
-    outputFormat: "ទម្រង់លទ្ធផល",
     advancedOptions: "ជម្រើសកម្រិតខ្ពស់",
     pasteGeoJSON: "បិទភ្ជាប់ GeoJSON",
     useAIParser: "ប្រើឧបករណ៍វិភាគ AI សម្រាប់ឯកសារស្មុគស្មាញ ឬមិនស្តង់ដារ (យឺតជាង)។",
