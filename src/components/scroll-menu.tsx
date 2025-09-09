@@ -9,8 +9,9 @@ import { ChevronLeft, ChevronRight, FileJson, Type, MapPin, Sparkles, File as Fi
 import { motion } from "framer-motion";
 import { ConversionType } from "./converter";
 import { useLanguage } from "@/components/language-provider";
+import { TranslationKey } from "@/lib/translations";
 
-const getMenuItems = (t: (key: string) => string) => [
+const getMenuItems = (t: (key: TranslationKey) => string) => [
   { key: "kml", label: t('kmlToCSV'), icon: MapPin },
   { key: "gpx", label: t('gpxToCSV'), icon: MapPin },
   { key: "geojson", label: t('geoJsonToCSV'), icon: MapPin },
