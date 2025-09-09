@@ -27,6 +27,7 @@ import { ClientOnly } from "./client-only";
 import ScrollMenu from "./scroll-menu";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Footer } from "@/components/footer";
+import { InstallBanner } from "@/components/install-banner";
 
 
 interface GeoPoint {
@@ -115,6 +116,10 @@ export default function Converter() {
       }
       setInstallPrompt(null);
     });
+  };
+
+  const handleInstallDismiss = () => {
+    // Optional: Handle banner dismissal if needed
   };
 
   const resetState = (partial: { files?: File[] } & Partial<typeof textInputs> = {}) => {
@@ -1625,12 +1630,18 @@ const parseKML = (kmlString: string): GeoPoint[] => {
 
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="relative depth-container"
-    >
+    <>
+      <InstallBanner 
+        installPrompt={installPrompt}
+        onInstall={handleInstallClick}
+        onDismiss={handleInstallDismiss}
+      />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="relative depth-container"
+      >
       <Card className="w-full glass-morphism hover-holographic animate-float depth-card">
         <CardHeader>
           <div className="flex items-start justify-between space-x-3">
@@ -1779,7 +1790,8 @@ const parseKML = (kmlString: string): GeoPoint[] => {
         </CardFooter>
       </Card>
       <Footer />
-    </motion.div>
+      </motion.div>
+    </>
   );
 }
  

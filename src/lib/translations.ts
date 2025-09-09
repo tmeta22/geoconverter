@@ -40,6 +40,10 @@ export const translations = {
     preview: "Preview",
     process: "Process",
     install: "Install",
+    installApp: "Install App",
+    installAppDescription: "Install this app on your device for a better experience and offline access.",
+    installNow: "Install Now",
+    installLater: "Maybe Later",
     
     // Status Messages
     processing: "Processing...",
@@ -211,6 +215,10 @@ export const translations = {
     preview: "មើលសាកល្បង",
     process: "ដំណើរការ",
     install: "ដំឡើង",
+    installApp: "ដំឡើងកម្មវិធី",
+    installAppDescription: "ដំឡើងកម្មវិធីនេះនៅលើឧបករណ៍របស់អ្នកដើម្បីបទពិសោធន៍ប្រសើរជាង និងការចូលប្រើក្រៅបណ្តាញ។",
+    installNow: "ដំឡើងឥឡូវនេះ",
+    installLater: "ប្រហែលជាពេលក្រោយ",
     
     // Status Messages
     processing: "កំពុងដំណើរការ...",
