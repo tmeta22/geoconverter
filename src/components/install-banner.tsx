@@ -27,20 +27,40 @@ export function InstallBanner({ installPrompt, onInstall, onDismiss }: InstallBa
 
     // Show banner after a short delay if install prompt is available
     if (installPrompt && !isDismissed) {
+      console.log('PWA install prompt detected - showing banner in 3 seconds');
       const timer = setTimeout(() => {
         setIsVisible(true);
+        console.log('PWA install banner now visible (with install prompt)');
       }, 3000); // Show after 3 seconds
 
       return () => clearTimeout(timer);
     }
 
-    // For testing: show banner even without install prompt in development
+    // For testing and fallback: show banner even without install prompt in development
+    // This ensures the banner appears consistently for testing purposes
     if (process.env.NODE_ENV === 'development' && !isDismissed) {
+      console.log('Development mode - showing banner in 5 seconds (no install prompt required)');
       const timer = setTimeout(() => {
         setIsVisible(true);
+        console.log('PWA install banner now visible (development mode)');
       }, 5000); // Show after 5 seconds in dev mode
 
       return () => clearTimeout(timer);
+    }
+
+    // For production: show informational banner if PWA is supported but no install prompt
+    if (process.env.NODE_ENV === 'production' && !installPrompt && !isDismissed) {
+      // Check if PWA is supported
+      const isPWASupported = 'serviceWorker' in navigator && 'PushManager' in window;
+      if (isPWASupported) {
+        console.log('Production mode - PWA supported but no install prompt, showing banner in 8 seconds');
+        const timer = setTimeout(() => {
+          setIsVisible(true);
+          console.log('PWA install banner now visible (production fallback)');
+        }, 8000); // Show after 8 seconds in production
+
+        return () => clearTimeout(timer);
+      }
     }
   }, [installPrompt, isDismissed]);
 
@@ -59,7 +79,14 @@ export function InstallBanner({ installPrompt, onInstall, onDismiss }: InstallBa
   }, []);
 
   const handleInstall = () => {
-    onInstall();
+    if (installPrompt) {
+      console.log('PWA install prompt triggered');
+      onInstall();
+    } else {
+      console.log('No install prompt available - showing manual instructions');
+      // Show manual installation instructions
+      alert('To install this app:\n\n1. On mobile: Tap the browser menu and select "Add to Home Screen"\n2. On desktop: Look for the install icon in your browser\'s address bar');
+    }
     setIsVisible(false);
   };
 
@@ -74,8 +101,10 @@ export function InstallBanner({ installPrompt, onInstall, onDismiss }: InstallBa
     return null;
   }
 
-  // Don't show in production if no install prompt available
-  if (!installPrompt && process.env.NODE_ENV === 'production') {
+  // Always show in development for testing
+  // In production, show if install prompt is available OR if PWA is supported
+  const isPWASupported = typeof window !== 'undefined' && 'serviceWorker' in navigator && 'PushManager' in window;
+  if (!installPrompt && process.env.NODE_ENV === 'production' && !isPWASupported) {
     return null;
   }
 
@@ -97,7 +126,9 @@ export function InstallBanner({ installPrompt, onInstall, onDismiss }: InstallBa
                 </div>
                 <div className="text-white">
                   <h4 className="font-semibold text-sm">{t('installApp')}</h4>
-                  <p className="text-xs text-white/80">{t('installAppDescription')}</p>
+                  <p className="text-xs text-white/80">
+                    {installPrompt ? t('installAppDescription') : 'Add this app to your home screen for quick access and better performance.'}
+                  </p>
                 </div>
               </div>
               
@@ -107,8 +138,9 @@ export function InstallBanner({ installPrompt, onInstall, onDismiss }: InstallBa
                   size="sm"
                   onClick={handleInstall}
                   className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/30"
+                  disabled={!installPrompt}
                 >
-                  {t('installNow')}
+                  {installPrompt ? t('installNow') : 'Add to Home Screen'}
                 </Button>
                 <Button
                   variant="ghost"
