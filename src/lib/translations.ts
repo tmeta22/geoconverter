@@ -156,12 +156,12 @@ export const translations = {
     uploadFile: "Upload File",
     advancedOptions: "Advanced Options",
     pasteGeoJSON: "Paste GeoJSON",
-    useAIParser: "Use AI Parser for complex or non-standard files (slower).",
+    useAIParserDescription: "Use AI Parser for complex or non-standard files (slower).",
     from: "From",
     to: "To",
-    decimalDegrees: "Decimal Degrees",
+    decimalDegreesLabel: "Decimal Degrees", // Renamed to avoid duplicate property name
     dms: "DMS",
-    utm: "UTM",
+    utmCoord: "UTM", // Renamed to avoid duplicate property name
     dataPreviewFieldMapping: "Data Preview & Field Mapping",
     latitudeColumn: "Latitude Column",
     longitudeColumn: "Longitude Column",
@@ -327,12 +327,12 @@ export const translations = {
     uploadFile: "ផ្ទុកឯកសារ",
     advancedOptions: "ជម្រើសកម្រិតខ្ពស់",
     pasteGeoJSON: "បិទភ្ជាប់ GeoJSON",
-    useAIParser: "ប្រើឧបករណ៍វិភាគ AI សម្រាប់ឯកសារស្មុគស្មាញ ឬមិនស្តង់ដារ (យឺតជាង)។",
+    useAIParserDescription: "ប្រើឧបករណ៍វិភាគ AI សម្រាប់ឯកសារស្មុគស្មាញ ឬមិនស្តង់ដារ (យឺតជាង)។",
     from: "ពី",
     to: "ទៅ",
-    decimalDegrees: "ដឺក្រេទសភាគ",
+    decimalDegreesLabel: "ដឺក្រេទសភាគ", // Renamed to avoid duplicate property name
     dms: "DMS",
-    utm: "UTM",
+    utmCoord: "UTM", // Renamed to avoid duplicate property
     dataPreviewFieldMapping: "ការមើលសាកល្បងទិន្នន័យ និងការផ្គូផ្គងវាល",
     latitudeColumn: "ជួរឈរទទឹង",
     longitudeColumn: "ជួរឈរបណ្តោយ",
@@ -346,7 +346,7 @@ export type Language = keyof typeof translations;
 export type TranslationKey = keyof typeof translations.en;
 
 export function getTranslation(lang: Language, key: TranslationKey): string {
-  return translations[lang]?.[key] || translations.en[key] || key;
+  return (translations[lang] as Record<TranslationKey, string>)?.[key] || translations.en[key] || key;
 }
 
 export function getCurrentLanguage(): Language {
