@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Geo-Converter</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            margin: 0 0 1rem 0;
+            font-size: 2rem;
+        }
+        p {
+            margin: 0 0 2rem 0;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        .retry-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .retry-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        .features {
+            margin-top: 2rem;
+            text-align: left;
+        }
+        .feature {
+            margin: 0.5rem 0;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🌐</div>
+        <h1>You're Offline</h1>
+        <p>It looks like you're not connected to the internet. Don't worry, some features of Geo-Converter may still work with cached data.</p>
+        
+        <button class="retry-btn" onclick="window.location.reload()">Try Again</button>
+        
+        <div class="features">
+            <h3>Available Offline:</h3>
+            <div class="feature">• Previously converted files</div>
+            <div class="feature">• Cached conversion tools</div>
+            <div class="feature">• Basic coordinate conversion</div>
+            <div class="feature">• File format detection</div>
+            <div class="feature">• Local data processing</div>
+        </div>
+        
+        <div class="offline-tools" style="margin-top: 2rem; text-align: left;">
+            <h3>Quick Coordinate Converter:</h3>
+            <div style="margin: 1rem 0;">
+                <input type="text" id="coordInput" placeholder="Enter coordinates (lat, lon)" 
+                       style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; margin-bottom: 10px;">
+                <button onclick="convertCoordinates()" class="retry-btn" style="width: 100%; margin: 0;">Convert</button>
+                <div id="coordResult" style="margin-top: 10px; font-family: monospace; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; display: none;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Check if online and auto-reload
+        window.addEventListener('online', function() {
+            window.location.reload();
+        });
+        
+        // Update UI based on connection status
+        function updateConnectionStatus() {
+            if (navigator.onLine) {
+                window.location.reload();
+            }
+        }
+        
+        // Check connection periodically
+        setInterval(updateConnectionStatus, 5000);
+        
+        // Offline coordinate conversion functionality
+        function convertCoordinates() {
+            const input = document.getElementById('coordInput').value.trim();
+            const result = document.getElementById('coordResult');
+            
+            if (!input) {
+                result.style.display = 'block';
+                result.innerHTML = 'Please enter coordinates';
+                return;
+            }
+            
+            try {
+                // Parse different coordinate formats
+                let lat, lon;
+                
+                // Try comma-separated format
+                if (input.includes(',')) {
+                    const parts = input.split(',').map(p => p.trim());
+                    lat = parseFloat(parts[0]);
+                    lon = parseFloat(parts[1]);
+                } else {
+                    // Try space-separated format
+                    const parts = input.split(/\s+/);
+                    lat = parseFloat(parts[0]);
+                    lon = parseFloat(parts[1]);
+                }
+                
+                if (isNaN(lat) || isNaN(lon)) {
+                    throw new Error('Invalid coordinate format');
+                }
+                
+                // Validate coordinate ranges
+                if (lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+                    throw new Error('Coordinates out of valid range');
+                }
+                
+                // Convert to different formats
+                const dd = `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+                const dms = convertToDMS(lat, lon);
+                const utm = convertToUTM(lat, lon);
+                
+                result.style.display = 'block';
+                result.innerHTML = `
+                    <strong>Decimal Degrees:</strong><br>${dd}<br><br>
+                    <strong>DMS:</strong><br>${dms}<br><br>
+                    <strong>UTM (approx):</strong><br>${utm}
+                `;
+                
+            } catch (error) {
+                result.style.display = 'block';
+                result.innerHTML = `Error: ${error.message}<br><br>Format: lat, lon (e.g., 11.5564, 104.9282)`;
+            }
+        }
+        
+        function convertToDMS(lat, lon) {
+            function toDMS(coord, isLat) {
+                const abs = Math.abs(coord);
+                const deg = Math.floor(abs);
+                const min = Math.floor((abs - deg) * 60);
+                const sec = ((abs - deg) * 60 - min) * 60;
+                const dir = isLat ? (coord >= 0 ? 'N' : 'S') : (coord >= 0 ? 'E' : 'W');
+                return `${deg}° ${min}' ${sec.toFixed(2)}" ${dir}`;
+            }
+            
+            return `${toDMS(lat, true)}, ${toDMS(lon, false)}`;
+        }
+        
+        function convertToUTM(lat, lon) {
+            // Simplified UTM conversion (approximation)
+            const zone = Math.floor((lon + 180) / 6) + 1;
+            const hemisphere = lat >= 0 ? 'N' : 'S';
+            return `Zone ${zone}${hemisphere} (simplified calculation)`;
+        }
+        
+        // Allow Enter key to trigger conversion
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('coordInput');
+            if (input) {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        convertCoordinates();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
