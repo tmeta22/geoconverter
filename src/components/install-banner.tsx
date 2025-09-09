@@ -85,7 +85,7 @@ export function InstallBanner({ installPrompt, onInstall, onDismiss }: InstallBa
     } else {
       console.log('No install prompt available - showing manual instructions');
       // Show manual installation instructions
-      alert('To install this app:\n\n1. On mobile: Tap the browser menu and select "Add to Home Screen"\n2. On desktop: Look for the install icon in your browser\'s address bar');
+      alert('To install this app:\n\n1. On PC: Look for the install icon in your browser\'s address bar or use Ctrl+Shift+A\n2. On mobile: Tap the browser menu and select "Add to Home Screen"');
     }
     setIsVisible(false);
   };
@@ -127,7 +127,7 @@ export function InstallBanner({ installPrompt, onInstall, onDismiss }: InstallBa
                 <div className="text-white">
                   <h4 className="font-semibold text-sm">{t('installApp')}</h4>
                   <p className="text-xs text-white/80">
-                    {installPrompt ? t('installAppDescription') : 'Add this app to your home screen for quick access and better performance.'}
+                    {installPrompt ? 'Install this app on your PC for quick access and better performance.' : 'Add this app to your home screen for quick access and better performance.'}
                   </p>
                 </div>
               </div>
@@ -140,7 +140,7 @@ export function InstallBanner({ installPrompt, onInstall, onDismiss }: InstallBa
                   className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/30"
                   disabled={!installPrompt}
                 >
-                  {installPrompt ? t('installNow') : 'Add to Home Screen'}
+                  {installPrompt ? 'Install on PC' : 'Add to Home Screen'}
                 </Button>
                 <Button
                   variant="ghost"

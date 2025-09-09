@@ -1661,18 +1661,6 @@ const parseKML = (kmlString: string): GeoPoint[] => {
               <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
                 <ClientOnly>
                   <LanguageToggle />
-                  {installPrompt && (
-                      <Button variant="outline" size="sm" onClick={handleInstallClick} className="hidden sm:flex">
-                          <AppWindow className="mr-2 h-4 w-4" />
-                          {t('install')}
-                      </Button>
-                  )}
-                  {installPrompt && (
-                      <Button variant="outline" size="icon" onClick={handleInstallClick} className="sm:hidden">
-                          <AppWindow className="h-4 w-4" />
-                          <span className="sr-only">{t('install')}</span>
-                      </Button>
-                  )}
                    <AlertDialog>
                     <AlertDialogTrigger asChild>
                         <Button variant="outline" size="icon">
