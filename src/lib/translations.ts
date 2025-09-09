@@ -3,6 +3,7 @@ export const translations = {
     // Header and Navigation
     appTitle: "GEO-CONVERTER",
     appDescription: "Transform your geographic data with AI-powered precision",
+    advancedAI: "with advanced AI",
     themeToggle: "Toggle theme",
     
     // File Upload
@@ -174,6 +175,7 @@ export const translations = {
     // Header and Navigation
     appTitle: "ឧបករណ៍បំប្លែងភូមិសាស្ត្រ",
     appDescription: "បំប្លែងទិន្នន័យភូមិសាស្ត្រដោយប្រើបច្ចេកវិទ្យា AI ដ៏ជាក់លាក់",
+    advancedAI: "ជាមួយ AI កម្រិតខ្ពស់",
     themeToggle: "ប្តូរធីម",
     
     // File Upload
