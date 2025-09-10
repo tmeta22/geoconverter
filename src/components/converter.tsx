@@ -1043,6 +1043,9 @@ const parseKML = (kmlString: string): GeoPoint[] => {
             }
 
             if (activeTab === 'geojson') {
+              if (geojsonOutputFormat === 'csv') {
+                return { data: convertToCSV(data), rows: data.length, success: true };
+              }
               return { data: null, rows: data.length, success: true };
             }
 
@@ -1073,7 +1076,7 @@ const parseKML = (kmlString: string): GeoPoint[] => {
                         if(isBatch || files.length > 1) { // Always treat multi-file as batch
                              newCsvDataMap.set(file.name, resultData!);
                         } else {
-                            if (activeTab !== 'geojson') {
+                            if (activeTab !== 'geojson' || geojsonOutputFormat === 'csv') {
                                 setCsvData(resultData);
                             }
                         }
@@ -1099,7 +1102,7 @@ const parseKML = (kmlString: string): GeoPoint[] => {
 
              const { data: resultData, rows, success } = await processFile(null, textContent);
              if (success) {
-                 if (activeTab !== 'geojson') {
+                 if (activeTab !== 'geojson' || geojsonOutputFormat === 'csv') {
                     setCsvData(resultData);
                  }
                  setRowCount(rows);
