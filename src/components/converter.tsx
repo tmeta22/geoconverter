@@ -27,6 +27,7 @@ import { ClientOnly } from "./client-only";
 import ScrollMenu from "./scroll-menu";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Footer } from "@/components/footer";
+import { InstallBanner } from "@/components/install-banner";
 
 
 
@@ -261,11 +262,12 @@ export default function Converter() {
       let text = '';
       if (typeof source === 'string') {
         text = source;
-        handleTextInput('geojson', text);
+        setTextInputs(prev => ({ ...prev, geojson: text }));
+        setFiles([]); // Clear files if user types
       } else {
         text = await source.text();
         setFiles([source]);
-        handleTextInput('geojson', '');
+        setTextInputs(prev => ({ ...prev, geojson: '' }));
       }
 
       if (!text.trim()) {
@@ -1783,6 +1785,13 @@ const parseKML = (kmlString: string): GeoPoint[] => {
         </CardFooter>
       </Card>
       <Footer />
+      
+      {/* PWA Install Banner */}
+      <InstallBanner 
+        installPrompt={installPrompt}
+        onInstall={handleInstallClick}
+        onDismiss={handleInstallDismiss}
+      />
       </motion.div>
     </>
   );

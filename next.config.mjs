@@ -33,7 +33,7 @@ export default withPWA({
   disable: process.env.NODE_ENV === 'development',
   fallbacks: {
     document: '/offline.html',
-    image: '/icons/icon-512x512.png',
+    image: '/icons/icon-512x512.svg',
     audio: '/offline.html',
     video: '/offline.html',
   },
