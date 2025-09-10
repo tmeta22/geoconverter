@@ -27,7 +27,7 @@ import { ClientOnly } from "./client-only";
 import ScrollMenu from "./scroll-menu";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Footer } from "@/components/footer";
-import { InstallBanner } from "@/components/install-banner";
+
 
 
 
@@ -1662,6 +1662,17 @@ const parseKML = (kmlString: string): GeoPoint[] => {
               <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
                 <ClientOnly>
                   <LanguageToggle />
+                  {installPrompt && (
+                    <Button 
+                      variant="outline" 
+                      size="icon"
+                      onClick={handleInstallClick}
+                      className="text-neon-cyan border-neon-cyan hover:bg-neon-cyan/10"
+                    >
+                      <AppWindow className="h-4 w-4" />
+                      <span className="sr-only">Install App</span>
+                    </Button>
+                  )}
                    <AlertDialog>
                     <AlertDialogTrigger asChild>
                         <Button variant="outline" size="icon">
@@ -1786,12 +1797,7 @@ const parseKML = (kmlString: string): GeoPoint[] => {
       </Card>
       <Footer />
       
-      {/* PWA Install Banner */}
-      <InstallBanner 
-        installPrompt={installPrompt}
-        onInstall={handleInstallClick}
-        onDismiss={handleInstallDismiss}
-      />
+
       </motion.div>
     </>
   );
